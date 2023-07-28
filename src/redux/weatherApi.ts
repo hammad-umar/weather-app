@@ -1,8 +1,6 @@
 import { ICurrent, ILocation } from '@/types'
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
 
-const API_KEY = 'd140ac231f174ed7838193559232807'
-
 interface IGetWeatherDetailsRequest {
   searchTerm: string
 }
@@ -15,7 +13,9 @@ interface IGetWeatherDetailsResponse {
 export const weatherApi = createApi({
   reducerPath: 'weatherApi',
   keepUnusedDataFor: 0,
-  baseQuery: fetchBaseQuery({ baseUrl: 'http://api.weatherapi.com/v1' }),
+  baseQuery: fetchBaseQuery({
+    baseUrl: process.env.NEXT_PUBLIC_BASE_API_URL,
+  }),
   endpoints: (builder) => ({
     getWeatherDetails: builder.query<
       IGetWeatherDetailsResponse,
@@ -23,7 +23,7 @@ export const weatherApi = createApi({
     >({
       query: ({ searchTerm }) => ({
         method: 'GET',
-        url: `/current.json?key=${API_KEY}&q=${searchTerm}&aqi=no`,
+        url: `/current.json?key=${process.env.NEXT_PUBLIC_API_KEY}&q=${searchTerm}&aqi=no`,
       }),
     }),
   }),
