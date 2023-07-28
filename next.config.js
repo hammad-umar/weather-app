@@ -15,6 +15,12 @@ const nextConfig = {
         port: '',
         pathname: '/random',
       },
+      {
+        protocol: 'https',
+        hostname: 'cdn.weatherapi.com',
+        port: '',
+        pathname: '/weather/**',
+      },
     ],
   },
 }

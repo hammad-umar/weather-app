@@ -1,13 +1,8 @@
 import { Metadata, NextPage } from 'next'
-import Box from '@mui/material/Box'
-import Typography from '@mui/material/Typography'
+import Weather from './components/Weather'
 
 const HomePage: NextPage = () => {
-  return (
-    <Box>
-      <Typography variant='h3'>Home Page</Typography>
-    </Box>
-  )
+  return <Weather />
 }
 
 export const metadata: Metadata = {
