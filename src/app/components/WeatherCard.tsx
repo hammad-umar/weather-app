@@ -7,6 +7,8 @@ import Card from '@mui/material/Card'
 import CardContent from '@mui/material/CardContent'
 import Typography from '@mui/material/Typography'
 import { ICurrent, ILocation } from '@/types'
+import { COLORS } from '@/constants/colors'
+import { colors } from '@mui/material'
 
 type Props = {
   data: {
@@ -17,11 +19,18 @@ type Props = {
 
 const WeatherCard: FC<Props> = ({ data }) => {
   return (
-    <Card>
+    <Card
+      sx={{
+        bgcolor: 'transparent',
+        opacity: 0.8,
+        boxShadow:
+          'rgba(0, 0, 0, 0.3) 0px 19px 38px, rgba(0, 0, 0, 0.22) 0px 15px 12px',
+      }}
+    >
       <CardContent>
         <Grid container alignItems='center' gap={12}>
           <Grid item>
-            <Typography variant='h6'>
+            <Typography color={COLORS.WHITE_COLOR} variant='h6'>
               {data.location.name}
               {', '}
               {data.location.region}
@@ -30,7 +39,11 @@ const WeatherCard: FC<Props> = ({ data }) => {
             </Typography>
           </Grid>
           <Grid item>
-            <Typography fontSize={18} variant='subtitle1'>
+            <Typography
+              color={COLORS.WHITE_COLOR}
+              fontSize={18}
+              variant='subtitle1'
+            >
               {data.current.feelslike_c}&deg; C
             </Typography>
           </Grid>
@@ -45,7 +58,13 @@ const WeatherCard: FC<Props> = ({ data }) => {
             />
           </Grid>
           <Grid item>
-            <Typography>{data.current.condition.text}</Typography>
+            <Typography
+              variant='subtitle1'
+              fontStyle='italic'
+              color={colors.blue[700]}
+            >
+              &quot;{data.current.condition.text}&quot;
+            </Typography>
           </Grid>
         </Grid>
       </CardContent>
