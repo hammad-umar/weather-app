@@ -1,23 +1,46 @@
 'use client'
 
-import { FC, useState } from 'react'
+import { FC, useState, SyntheticEvent } from 'react'
 import Grid from '@mui/material/Grid'
+import Snackbar from '@mui/material/Snackbar'
 import { useLazyGetWeatherDetailsQuery } from '@/redux/weatherApi'
 import Loader from './UI/Loader'
 import WeatherCard from './WeatherCard'
 import WeatherForm from './WeatherForm'
 import WeatherHeader from './WeatherHeader'
 import { COLORS } from '@/constants/colors'
+import { ISnackBar } from '@/types'
+import { colors } from '@mui/material'
 
 const Weather: FC = () => {
   const [searchTerm, setSearchTerm] = useState<string>('')
+  const [alert, setAlert] = useState<ISnackBar>({
+    open: false,
+    message: '',
+    bgColor: '',
+  })
 
-  const [getWeatherDetails, { isLoading, data }] =
+  const [getWeatherDetails, { isLoading, data, isFetching }] =
     useLazyGetWeatherDetailsQuery()
+
+  const handleClose = (_: SyntheticEvent | Event, reason?: string) => {
+    if (reason === 'clickaway') {
+      return
+    }
+
+    setAlert({
+      ...alert,
+      open: false,
+    })
+  }
 
   const onSubmitHandler = (): void => {
     if (!searchTerm) {
-      alert('City is required!')
+      setAlert({
+        open: true,
+        message: 'City is required',
+        bgColor: colors.red.A400,
+      })
       return
     }
 
@@ -27,7 +50,11 @@ const Weather: FC = () => {
         console.log(res)
       })
       .catch((err) => {
-        console.log(err)
+        setAlert({
+          open: true,
+          message: err.data.error.message,
+          bgColor: colors.red.A400,
+        })
       })
 
     setSearchTerm('')
@@ -43,6 +70,19 @@ const Weather: FC = () => {
       justifyContent='center'
       gap={2}
     >
+      <Snackbar
+        open={alert.open}
+        autoHideDuration={4000}
+        onClose={handleClose}
+        message={alert.message}
+        anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
+        ContentProps={{
+          style: {
+            backgroundColor: alert.bgColor,
+            fontWeight: 'bold',
+          },
+        }}
+      />
       {/* Weather Header Component */}
       <WeatherHeader />
 
@@ -54,9 +94,9 @@ const Weather: FC = () => {
       />
 
       {/* Weather Card with weather location, icon and condition */}
-      {isLoading ? (
+      {isLoading || isFetching ? (
         <Loader />
-      ) : !isLoading && data ? (
+      ) : !isLoading && !isFetching && data ? (
         <WeatherCard data={data} />
       ) : null}
     </Grid>

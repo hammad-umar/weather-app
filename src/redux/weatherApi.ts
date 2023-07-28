@@ -14,6 +14,7 @@ interface IGetWeatherDetailsResponse {
 
 export const weatherApi = createApi({
   reducerPath: 'weatherApi',
+  keepUnusedDataFor: 0,
   baseQuery: fetchBaseQuery({ baseUrl: 'http://api.weatherapi.com/v1' }),
   endpoints: (builder) => ({
     getWeatherDetails: builder.query<

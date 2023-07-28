@@ -38,3 +38,9 @@ export interface ICurrent {
   gust_mph: number
   gust_kph: number
 }
+
+export interface ISnackBar {
+  open: boolean
+  message: string
+  bgColor: string
+}
