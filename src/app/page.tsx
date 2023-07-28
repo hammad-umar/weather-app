@@ -1,10 +1,12 @@
 import { Metadata, NextPage } from 'next'
+import Box from '@mui/material/Box'
+import Typography from '@mui/material/Typography'
 
 const HomePage: NextPage = () => {
   return (
-    <div>
-      <h1>Home Page</h1>
-    </div>
+    <Box>
+      <Typography variant='h3'>Home Page</Typography>
+    </Box>
   )
 }
 
